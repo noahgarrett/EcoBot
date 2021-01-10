@@ -120,6 +120,8 @@ venv.bak/
 .mypy_cache/
 .dmypy.json
 dmypy.json
+*.exe
+*.bat
 
 # Pyre type checker
 .pyre/
