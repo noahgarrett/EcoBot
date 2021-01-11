@@ -36,6 +36,27 @@ class Bank(commands.Cog):
         except Exception as e:
             await ctx.send('Please use #register to create your account')
 
+    @commands.command()
+    async def give(self, ctx, amt, member: discord.Member):
+        server = ctx.guild.id
+        user = ctx.author.id
+        reciever = member.id
+        try:
+            balance =  await db.check_balance(server, user)
+            if int(balance) >= int(amt):
+                if int(amt) < 0:
+                    await ctx.send('You cannot give someone a negative amount of money..')
+                else:
+                    update_balance = await db.give_money(server, user, reciever, amt)
+                    if update_balance:
+                        await ctx.send(f'Successfully gave {member.mention} **${amt}**')
+                    else:
+                        await ctx.send('Error')
+            else:
+                await ctx.send(f'You do not have enough money for this transaction. Current balance is: **${balance}**')
+        except Exception as e:
+            await ctx.send(e)
+
 
 
 def setup(client):

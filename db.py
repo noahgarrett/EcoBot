@@ -1,6 +1,6 @@
 import mysql.connector
 
-balance = 1000
+balance = 5000
 server = 273194843117977612
 user = 272900275688177664
 amt = 100
@@ -13,10 +13,11 @@ db = mysql.connector.connect(
 mycursor = db.cursor()
 
 def create_server_table():
-    mycursor.execute("CREATE TABLE serverBank (serverID varchar(20), userID varchar(20) PRIMARY KEY, balance int UNSIGNED)")
+    mycursor.execute("CREATE TABLE serverTreasury (money bigint UNSIGNED)")
 
 def delete_server_table():
-    mycursor.execute("DROP TABLE serverBank")
+    mycursor.execute("DROP TABLE serverTreasury")
+    db.commit()
 
 def see_server_table():
     mycursor.execute("DESCRIBE serverBank")
@@ -65,9 +66,33 @@ async def decrease_balance(server, user, amt):
         print(e)
         return False
 
+async def give_money(server, user, reciever, amt):
+    try:
+        server_ = str(server)
+        user_ = str(user)
+        reciever_ = str(reciever)
+
+        balance = await check_balance(server, user)
+        reciever_balance = await check_balance(server, reciever)
+
+        new_balance = int(balance) - int(amt)
+        new_reciever_balance = int(reciever_balance) + int(amt)
+
+        update = mycursor.execute(f"UPDATE serverBank set balance = {new_balance} where userID = {user_}")
+        reciever_update = mycursor.execute(f"UPDATE serverBank set balance = {new_reciever_balance} where userID = {reciever_}")
+        db.commit()
+        return True
+    except Exception as e:
+        print(e)
+        return False
 
 
 
+
+
+
+
+# treasury_money()
 # create_server_table()
 # see_server_table()
 # delete_server_table()

@@ -17,5 +17,10 @@ class Events(commands.Cog):
         if isinstance(error, commands.MissingRequiredArgument):
             await ctx.send(f'Please use #help for the correct arguments')
 
+    @commands.Cog.listener()
+    async def on_message(self, message):
+        if message.author.id == 210801541219745792:
+            await message.channel.send('Crump stfu')
+
 def setup(client):
     client.add_cog(Events(client))

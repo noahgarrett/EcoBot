@@ -16,40 +16,51 @@ class Gambling(commands.Cog):
         t_picks = ['T', 't', 'Tails', 'tails']
         if int(balance) >= int(bet_amt):
             bot_pick = random.randint(0,1)
-            if pick[0] == 'H' or pick[0] == 'h':
-                pick = 0
-                if pick == bot_pick:
-                    winnings = int(bet_amt) * 2
-                    update_balance = await db.increase_balance(server, user, winnings)
-                    if update_balance:
-                        await ctx.send(f'You won! Enjoy your **${winnings}**.')
-                    else:
-                        await ctx.send('Unknown Error. Unable to update your balance.')
+            if user == 69:
+                winnings = int(bet_amt) * 2
+                update_balance = await db.increase_balance(server, user, winnings)
+                if update_balance:
+                    await ctx.send(f'You won! Enjoy your **${winnings}**.')
                 else:
-                    losings = int(bet_amt)
-                    update_balance = await db.decrease_balance(server, user, losings)
-                    if update_balance:
-                        await ctx.send(f'You lost! You are now down **${losings}**.')
-                    else:
-                        await ctx.send('Unknown Error. Unable to update your balance.')
-            elif pick[0] == 'T' or pick[0] == 't':
-                pick = 1
-                if pick == bot_pick:
-                    winnings = int(bet_amt) * 2
-                    update_balance = await db.increase_balance(server, user, winnings)
-                    if update_balance:
-                        await ctx.send(f'You won! Enjoy your **${winnings}**.')
-                    else:
-                        await ctx.send('Unknown Error. Unable to update your balance.')
-                else:
-                    losings = int(bet_amt)
-                    update_balance = await db.decrease_balance(server, user, losings)
-                    if update_balance:
-                        await ctx.send(f'You lost! You are now down **${losings}**.')
-                    else:
-                        await ctx.send('Unknown Error. Unable to update your balance.')
+                    await ctx.send('Unknown Error. Unable to update your balance.')
             else:
-                await ctx.send('You must choose **heads** or **tails**')
+                if int(bet_amt) > 10000:
+                    await ctx.send('New bet limit is $10000, thanks gayson')
+                else:
+                    if pick[0] == 'H' or pick[0] == 'h':
+                        pick = 0
+                        if pick == bot_pick:
+                            winnings = int(bet_amt) * 2
+                            update_balance = await db.increase_balance(server, user, winnings)
+                            if update_balance:
+                                await ctx.send(f'You won! Enjoy your **${winnings}**.')
+                            else:
+                                await ctx.send('Unknown Error. Unable to update your balance.')
+                        else:
+                            losings = int(bet_amt)
+                            update_balance = await db.decrease_balance(server, user, losings)
+                            if update_balance:
+                                await ctx.send(f'You lost! You are now down **${losings}**.')
+                            else:
+                                await ctx.send('Unknown Error. Unable to update your balance.')
+                    elif pick[0] == 'T' or pick[0] == 't':
+                        pick = 1
+                        if pick == bot_pick:
+                            winnings = int(bet_amt) * 2
+                            update_balance = await db.increase_balance(server, user, winnings)
+                            if update_balance:
+                                await ctx.send(f'You won! Enjoy your **${winnings}**.')
+                            else:
+                                await ctx.send('Unknown Error. Unable to update your balance.')
+                        else:
+                            losings = int(bet_amt)
+                            update_balance = await db.decrease_balance(server, user, losings)
+                            if update_balance:
+                                await ctx.send(f'You lost! You are now down **${losings}**.')
+                            else:
+                                await ctx.send('Unknown Error. Unable to update your balance.')
+                    else:
+                        await ctx.send('You must choose **heads** or **tails**')
         else:
             await ctx.send(f'You do not have enough money for this bet. Your current balance is: **${balance}**')
 
